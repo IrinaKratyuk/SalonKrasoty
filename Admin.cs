@@ -11,10 +11,15 @@ namespace Salon
         }
 
         private void button1_Click(object sender, EventArgs e)
-        {
+        {  
             Form1 frm = new Form1();
             this.Hide();
             frm.Show();
+        }
+
+        private void добавитьМастераToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
