@@ -6,10 +6,13 @@ namespace Salon
 {
     class global
     {
-        
-       // public static SqlConnection conn = new SqlConnection(@"Data Source=LAPTOP-TKRUUJ4F;Initial Catalog=Students;Integrated Security=True");
-       /* String ConnectString = "Integrated Security=false;" + "User Id = " + textBox1.Text + "; Password = " + textBox2.Text + "; " + "Initial Catalog =KratyukIN " + "; server =LAPTOP-TKRUUJ4F ";
-        //Объявление новой переменной типа SqlConection
-       public static SqlConnection conn = new SqlConnection(ConnectString);*/
+       public static String ConnectString;
+        public static SqlConnection conn;
+        public global(string log, string pas)
+        {
+            ConnectString = "Integrated Security=true;" + "User Id = " + log + "; Password = " + pas + "; " + "Initial Catalog =SalonKrasoty " + "; server =LAPTOP-TKRUUJ4F ";
+            conn = new SqlConnection(ConnectString);
+        }
+       
     }
 }
