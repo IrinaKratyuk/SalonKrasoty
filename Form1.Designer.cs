@@ -46,7 +46,7 @@
             "Мастер"});
             this.comboBox1.Location = new System.Drawing.Point(106, 29);
             this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(132, 28);
+            this.comboBox1.Size = new System.Drawing.Size(159, 28);
             this.comboBox1.TabIndex = 0;
             // 
             // label1
@@ -84,7 +84,7 @@
             this.textBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.textBox1.Location = new System.Drawing.Point(106, 76);
             this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(132, 26);
+            this.textBox1.Size = new System.Drawing.Size(159, 26);
             this.textBox1.TabIndex = 4;
             // 
             // textBox2
@@ -93,7 +93,7 @@
             this.textBox2.Location = new System.Drawing.Point(106, 123);
             this.textBox2.Name = "textBox2";
             this.textBox2.PasswordChar = '*';
-            this.textBox2.Size = new System.Drawing.Size(132, 26);
+            this.textBox2.Size = new System.Drawing.Size(159, 26);
             this.textBox2.TabIndex = 5;
             // 
             // button1
@@ -111,7 +111,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(283, 215);
+            this.ClientSize = new System.Drawing.Size(310, 215);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.textBox2);
             this.Controls.Add(this.textBox1);
