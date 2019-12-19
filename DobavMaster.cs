@@ -20,11 +20,21 @@ namespace Salon
         int[] spec_ind = new int[20];//индексы специализаций
         private void DobavMaster_Load(object sender, EventArgs e)
         {
+            if (global.dob == 1) { button1.Visible = true; }
+            else
+            {   button3.Visible = true;
+                textBox1.Visible = false;
+                textBox2.Visible = false;
+                label1.Visible = false;
+                label2.Visible = false;
+                checkedListBox1.Visible = false;
+                label7.Visible = false;
+            }
             string query = @"SELECT * FROM Specializaciya";
             SqlCommand cmd = new SqlCommand(query, global.conn);
             global.conn.Open();
             SqlDataReader reader = cmd.ExecuteReader();
-           int i = 0;
+            int i = 0;
             while (reader.Read())
             {
                 checkedListBox1.Items.Add(reader[1]);
@@ -65,7 +75,6 @@ namespace Salon
                 SqlCommand cmd1 = new SqlCommand(dobmast, global.conn);
                 SqlDataReader r1 = cmd1.ExecuteReader();
                 r1.Close();
-                MessageBox.Show(dobuser);
                 SqlCommand cmd2 = new SqlCommand(dobuser, global.conn);
                 SqlDataReader r2 = cmd2.ExecuteReader();
                 r2.Close();
@@ -97,6 +106,24 @@ namespace Salon
 
                 dobmast = ""; dobuser = ""; dobspec = ""; poiskindex = "";
                 MessageBox.Show("Изменения внесены успешно");
+            }
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            string zapros = "";
+            if (textBox3.Text != "" && textBox4.Text != "" && textBox5.Text != "" && textBox6.Text != "")
+            {
+                zapros += "update Master set Familia = '" + textBox3.Text + "', Name = '" + textBox4.Text + "', Otchestvo = '" + textBox5.Text + "', Opyt = '" + textBox6.Text + "' where Master_ID = " + global.Master_ID + "; ";
+                SqlCommand command = new SqlCommand(zapros, global.conn);
+                SqlDataReader reader = command.ExecuteReader();
+                global.conn.Close();
+                zapros = "";
+                MessageBox.Show("Изменения внесены успешно");
+             }
+            else
+            {
+                MessageBox.Show("Поля не должны быть пустыми");
             }
         }
     }
