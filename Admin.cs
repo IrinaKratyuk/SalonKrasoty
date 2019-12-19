@@ -32,8 +32,7 @@ namespace Salon
 
         private void просмотрToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            int i = 0;
-            // DataGridViewTextBoxColumn dgvAge = new DataGridViewTextBoxColumn();
+            int i = 0;//просмотр
             if (!prosmotr)
             {
                 for (i = 0; i < 5; i++)
@@ -64,7 +63,10 @@ namespace Salon
                 reader.Close();
             }
             prosmotr = true;
-            
+            //удаление
+            button2.Visible = true;
+            //редактирование
+            button3.Visible = true;
             global.conn.Close();
         }
     }
