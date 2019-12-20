@@ -6,6 +6,7 @@ namespace Salon
 {
     class global
     {
+        public static string login;
        public static String ConnectString;
         public static SqlConnection conn;
         public static int dob;
@@ -16,5 +17,13 @@ namespace Salon
             conn = new SqlConnection(ConnectString);
         }
        
+    }
+    class mesto
+    {
+        public bool mest1 { get; set; }
+        public bool mest2 { get; set; }
+        public bool mest3 { get; set; }
+        public bool mest4 { get; set; }
+
     }
 }

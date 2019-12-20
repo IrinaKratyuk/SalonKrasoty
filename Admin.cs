@@ -91,6 +91,8 @@ namespace Salon
         private void button2_Click(object sender, EventArgs e)
         {
             string zapros = "";
+            int RowNum = dataGridView1.CurrentRow.Index;
+            global.Master_ID = (int)dataGridView1[0, RowNum].Value;
             global.conn.Open();
             dataGridView1.Rows.RemoveAt(dataGridView1.CurrentRow.Index);
             zapros += "delete from Master where Master_ID = " + global.Master_ID + "; ";
@@ -196,6 +198,58 @@ namespace Salon
             printPreviewDialog.ShowDialog();
             doc.Dispose();
             doc = null;
+        }
+
+        private void создатьToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            NewZakaz frm = new NewZakaz();
+            this.Hide();
+            frm.Show();
+        }
+
+        private void подтверждениеЗапросовToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            button5.Visible = true;
+            dataGridView1.Rows.Clear();
+            global.conn.Open();
+            string zapros = "select Familia, date_nach,date_konec,podtverd from Otpusk, Master where Master.Master_ID = Otpusk.Master_ID";
+            SqlCommand cmd = new SqlCommand(zapros, global.conn);
+            SqlDataReader reader = cmd.ExecuteReader();
+            int i = 0;
+            for (int c = 0; c < 4; c++)
+            {
+                dataGridView1.Columns.Add(new DataGridViewTextBoxColumn());
+            }
+            dataGridView1.Columns[0].HeaderText = "Фамилия";
+            dataGridView1.Columns[1].HeaderText = "Начало";
+            dataGridView1.Columns[2].HeaderText = "Конец";
+            dataGridView1.Columns[3].HeaderText = "Статус";
+            while (reader.Read())
+            {
+                dataGridView1.Rows.Add();
+                dataGridView1[0, i].Value = reader[0];
+                dataGridView1[1, i].Value = reader[1];
+                dataGridView1[2, i].Value = reader[2];
+                if (!(bool)reader[3]) dataGridView1[3, i].Value = "Ожидается";
+                else dataGridView1[3, i].Value = "Подтвержден";
+
+                i++;
+            }
+
+            global.conn.Close();
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            int RowNum = dataGridView1.CurrentRow.Index;
+
+            global.conn.Open();
+            string zapros = "update Otpusk set podtverd = 1 where Master_ID = (select Master_ID from Master where Familia = '"+dataGridView1[0,RowNum].Value+ "');update Grafik set Vihodnoi = 1 where Grafik.Master_ID = (select Master_ID from Master where Familia = '"+dataGridView1[0,RowNum].Value+"') and _date between '"+ ((DateTime)dataGridView1[1, RowNum].Value).ToString("dd.MM.yyyy") + "' and '"+ ((DateTime)dataGridView1[2, RowNum].Value).ToString("dd.MM.yyyy") + "'; ";
+            SqlCommand cmd = new SqlCommand(zapros,global.conn);
+            cmd.ExecuteNonQuery();
+            global.conn.Close();
+            dataGridView1.Columns.Clear();
+            подтверждениеЗапросовToolStripMenuItem_Click(sender, e);
         }
     }
 }

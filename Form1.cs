@@ -29,9 +29,9 @@ namespace Salon
                     if (reader[1].ToString() == "db_owner")
                     { admin = true; }
                 }
+                global.conn.Close();
                 if (admin)
                 {
-                    MessageBox.Show("Подключение установлено");
                     Admin frm = new Admin(); 
                     frm.Show(); 
                     this.Hide();
@@ -39,16 +39,18 @@ namespace Salon
                 }
                 else
                 {
-                    MessageBox.Show("Подключение установлено");
-                    Master frm = new Master(); 
+                    Master frm = new Master();
+                    global.login = textBox1.Text;
                     frm.Show(); 
                     this.Hide();
                     admin = false;
                 }
+
             }
             catch(SqlException se)
             {
                 MessageBox.Show("Ошибка подключения: " + se.Message);
+                global.conn.Close();
                 return;
             }
            
