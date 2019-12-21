@@ -11,6 +11,7 @@ namespace Salon
         public static SqlConnection conn;
         public static int dob;
         public static int Master_ID;
+        public static string nach_otch, konec_otch;
         public global(string log, string pas)
         {
             ConnectString = "Integrated Security=true;" + "User Id = " + log + "; Password = " + pas + "; " + "Initial Catalog =SalonKrasoty " + "; server =LAPTOP-TKRUUJ4F ";

@@ -13,7 +13,7 @@ namespace Salon
         
         private void button2_Click(object sender, EventArgs e)
         {
-            Admin frm = new Admin();
+           Admin frm = new Admin();
             this.Hide();
             frm.Show();
         }
@@ -53,7 +53,7 @@ namespace Salon
             bool k = false;
             if (textBox1.Text != "" && textBox2.Text != "" && textBox3.Text != ""&&textBox4.Text != "" && textBox5.Text != "" && textBox6.Text != "")
             { 
-                dobmast += "insert into Master (Familia,Name,Otchestvo, opyt) values ('" + textBox3.Text + "', '" + textBox4.Text + "', '" + textBox5.Text + "', '" + textBox6.Text + "');";
+                dobmast += "insert into Master (Familia,Name,Otchestvo, opyt, login) values ('" + textBox3.Text + "', '" + textBox4.Text + "', '" + textBox5.Text + "', '" + textBox6.Text + "','"+textBox1.Text+"');";
                 dobuser += "EXEC sp_addlogin "+textBox1.Text+","+textBox2.Text+",SalonKrasoty; EXEC sp_adduser " + textBox1.Text + "," + textBox1.Text + ", db_ddladmin; EXEC sp_addrolemember Masters,"+textBox1.Text+";";
                 k = true;
             }
@@ -104,6 +104,43 @@ namespace Salon
                 r4.Close();
                 global.conn.Close();
 
+                string zapros = "";
+                string maxdat="";
+                int maxid=0;
+
+                //максималый ид мастера
+                global.conn.Open();
+                zapros = "select MAX(Master_ID) from Master";
+                SqlCommand cmd = new SqlCommand(zapros, global.conn);
+                SqlDataReader reader = cmd.ExecuteReader();
+                
+                while (reader.Read())
+                {
+                    maxid=(int)reader[0];
+                }
+                reader.Close();
+                //определение максимальной даты даты
+                zapros = "select MAX(_date) from Grafik";
+                cmd = new SqlCommand(zapros, global.conn);
+                reader = cmd.ExecuteReader();
+                while (reader.Read())
+                {
+                    maxdat = ((DateTime)reader[0]).ToString("dd.MM.yyyy");
+                }
+                reader.Close();
+               DateTime seg= DateTime.Today;
+               TimeSpan delta=Convert.ToDateTime(maxdat)-seg;
+               int count = Convert.ToInt32(delta.Days.ToString());
+               
+                    for (int j=0; j <=count ; j++)
+                    {
+                        zapros = "insert into Grafik (mesto1, mesto2, mesto3, mesto4, _date, Vihodnoi, Master_ID) values (0,0,0,0,(select dateadd(day," + j + ",'" + seg + "')),0," + maxid + ")";
+                        cmd = new SqlCommand(zapros, global.conn);
+                        reader = cmd.ExecuteReader();
+                        reader.Close();
+                    }
+
+                global.conn.Close();
                 dobmast = ""; dobuser = ""; dobspec = ""; poiskindex = "";
                 MessageBox.Show("Изменения внесены успешно");
             }

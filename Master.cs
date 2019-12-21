@@ -1,12 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Data.SqlClient;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Salon
@@ -19,6 +12,7 @@ namespace Salon
         }
 
         private void button1_Click(object sender, EventArgs e)
+
         {
             global.conn.Close();
             Form1 frm = new Form1();
@@ -39,7 +33,7 @@ namespace Salon
                 dataGridView1.Rows.Add();
                 dataGridView1[0, i].Value = reader[0];
                 dataGridView1[1, i].Value = reader[1];
-                dataGridView1[2, i].Value = reader[2];
+                dataGridView1[2, i].Value = ((DateTime)reader[2]).ToString("dd.MM.yyyy");
                 if ((bool)reader[3])
                 {
                     dataGridView1[3, i].Value = "Выполнен";
@@ -48,16 +42,13 @@ namespace Salon
                 else dataGridView1[3, i].Value = "Ожидание";
                 i++;
             }
-
-
             global.conn.Close();
         }
-
+        //выполнение заказа
         private void button2_Click(object sender, EventArgs e)
         {
             int RowNum = dataGridView1.CurrentRow.Index;
-           
-
+  
             string zapros = "update Zacaz set Gotovnost = 1 where Data = '"+dataGridView1[2,RowNum].Value+"' and Mesto = '"+dataGridView1[1,RowNum].Value+"'";
             global.conn.Open();
             SqlCommand cmd = new SqlCommand(zapros, global.conn);
@@ -72,7 +63,7 @@ namespace Salon
                 dataGridView1.Rows.Add();
                 dataGridView1[0, i].Value = reader[0];
                 dataGridView1[1, i].Value = reader[1];
-                dataGridView1[2, i].Value = reader[2];
+                dataGridView1[2, i].Value = ((DateTime)reader[2]).ToString("dd.MM.yyyy");
                 if ((bool)reader[3])
                 {
                     dataGridView1[3, i].Value = "Выполнен";
@@ -83,17 +74,22 @@ namespace Salon
             }
             global.conn.Close();
         }
-
+        //расход материалов
         private void button4_Click(object sender, EventArgs e)
         {
             Spisanie frm = new Spisanie();
-            this.Hide();
-            frm.Show();
+            frm.ShowDialog();
         }
-
+        //запрос на отпуск
         private void button3_Click(object sender, EventArgs e)
         {
             Otpusk frm = new Otpusk();
+            frm.ShowDialog();
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            ProsmotrZaprosov frm = new ProsmotrZaprosov();
             frm.ShowDialog();
         }
     }

@@ -42,7 +42,7 @@ namespace Salon
 
             global.conn.Close();
         }
-
+        //отображение мастеров после выбора даты
         private void comboBox2_SelectedIndexChanged(object sender, EventArgs e)
         {
             comboBox3.Items.Clear();
@@ -62,14 +62,14 @@ namespace Salon
             {
                 comboBox3.Items.Add(tmp[i]);
             }
-
-
             global.conn.Close();
         }
         List<mesto> mests = new List<mesto>();
+        //после выбора мастера отображается услуга и время
         private void comboBox3_SelectedIndexChanged(object sender, EventArgs e)
         {
             comboBox1.Items.Clear();
+            comboBox4.Items.Clear();
             mests.Clear();
             string zapros = "";
             global.conn.Open();            
@@ -92,12 +92,25 @@ namespace Salon
                 if (!mests[i].mest3) comboBox1.Items.Add("14:00-16:00");
                 if (!mests[i].mest4) comboBox1.Items.Add("16:00-18:00");
             }
+            reader.Close();
+            zapros = "select Nazvanie from Master, Master_Spec, Specializaciya where Master_Spec.Master_ID = Master.Master_ID and Master_Spec.Specializaciya_ID = Specializaciya.Specializaciya_ID and Familia = '"+comboBox3.Text+"'";
+            cmd = new SqlCommand(zapros, global.conn);
+            reader = cmd.ExecuteReader();
 
-
+            List < string > usl= new List<string>();
+            while (reader.Read())
+            {
+                usl.Add((string)reader[0]);
+            }
+            for (int i = 0; i < usl.Count; i++)
+            {
+                comboBox4.Items.Add(usl[i]);
+            }
+            reader.Close();
             global.conn.Close();
         }
 
-
+        //создание заказа
         private void button2_Click(object sender, EventArgs e)
         {
             string zapros = "";
@@ -114,7 +127,7 @@ namespace Salon
             cmd.ExecuteNonQuery();
             
             global.conn.Close();
-            MessageBox.Show("ЗАказ добавлен");
+            MessageBox.Show("Заказ добавлен");
             textBox1.Text = "";
             textBox2.Text = "";
             comboBox3.Items.Clear();
@@ -122,6 +135,8 @@ namespace Salon
             comboBox1.Text = "";
             comboBox2.Text = "";
             comboBox3.Text = "";
+            comboBox4.Items.Clear();
+            comboBox4.Text = "";
         }
     }
 }
